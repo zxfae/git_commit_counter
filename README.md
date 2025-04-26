@@ -1,113 +1,111 @@
-🚀 Git Commit Counter
+Git Commit Counter
+A Rust-based CLI tool to format, count, and synchronize Git commits based on their type (e.g., FEAT, FIX, DOCS) and branch. It helps developers maintain consistent commit messages and track commit counts per type.
+Features
 
-Git Commit Counter is a Rust-based CLI tool for formatting, counting, and synchronizing Git commits based on their type (e.g., FEAT, FIX, DOCS) and branch.
+Format commit messages with a standardized structure: [branch] [TYPE count : message].
+Count commits by type (e.g., FEAT, FIX, DOCS, REF, TEST).
+Support for shorthand aliases (e.g., FE for FEAT, D for DOCS) that are automatically converted to full type names in commit messages and counter displays.
+Custom commit types supported (any type not defined as standard or alias).
+Synchronize commit counts with Git history, normalizing aliases to full type names.
+Branch-specific counters stored in ~/.git_commit_counts_<project>_<branch>.
+Display commit counts for the current branch with consistent formatting.
+Error handling for invalid inputs and non-Git repositories.
 
-It helps developers:
+Installation
 
-    Maintain consistent commit messages 🛠️
+Prerequisites:
 
-    Track commit counts per type 📊
+Rust (version 1.86.0 or later).
+Git installed and configured.
 
-    Sync counts with Git history 🔄
 
-✨ Features
-
-✅ Format commit messages with a standardized structure:
-
-    [branch] [TYPE count : message]
-
-✅ Count commits by type (e.g., FEAT, FIX, DOCS, REF, TEST, and custom types)
-
-✅ Synchronize commit counts with Git history (git log parsing)
-
-✅ Branch-specific counters stored locally:
-
-    ~/.git_commit_counts_<project>_<branch>
-
-✅ Display commit counts for the current branch
-
-✅ Robust error handling for:
-
-    Invalid commit messages
-
-    Non-Git repositories
-
-    Corrupted counter files
-
-⚙️ Installation
-Prerequisites
-
-    🦀 Rust (version 1.86.0 or later)
-
-    🔧 Git installed and configured
-
-Setup Steps
-
-    Clone the repository:
-
+Clone the Repository:
 git clone https://github.com/zxfae/git_commit_counter.git
 cd git_commit_counter
 
-Build the project:
 
+Build the Project:
 cargo build --release
 
-Install the binary:
 
+Install the Binary:
 cargo install --path git-commit-counter-bin --force
 
-Verify installation:
 
-    gm --help
+Verify Installation:
+gm --help
 
-👉 The binary (gm) is installed to ~/.cargo/bin/.
-Make sure this directory is in your PATH.
-🧑‍💻 Usage
+The binary (gm) is installed in ~/.cargo/bin/. Ensure this directory is in your PATH.
 
-Run gm inside any Git repository to manage commits easily.
+
+Usage
+Run gm in a Git repository to manage commits. The tool supports three main commands:
 1. Create a Commit
-
-Create a formatted commit with a specific type and message.
-
+Create a formatted commit with a specific type and message. Aliases (e.g., FE, D) are converted to full type names (e.g., FEAT, DOCS) in the commit message.
 Syntax:
-
 gm "TYPE : message"
 
 Example:
-
 echo "New feature" > feature.txt
 git add feature.txt
-gm "FEAT : Add new feature"
+gm "FE : Add new feature"
 
-Result:
+Output:
 
-    Creates commit:
-    [main] [FEAT 1 : Add new feature]
+Creates a commit with message: [main] [FEAT 1 : Add new feature].
+Increments the FEAT counter for the current branch.
 
-    Increments the FEAT counter
+Supported Types and Aliases:
 
-Supported Types:
 
-    Standard: FEAT, FIX, DOCS, REF, TEST
 
-    Custom: Any string you choose
+Full Type
+Aliases
+Description
+
+
+
+FEAT
+FE, F
+Feature
+
+
+FIX
+FI
+Bug fix
+
+
+DOCS
+D
+Documentation
+
+
+REF
+R
+Refactor
+
+
+TEST
+T
+Test
+
+
+Custom
+Any other string
+Custom type
+
 
 2. Show Commit Counts
-
-Display commit statistics for the current branch.
-
+Display commit counts for the current branch, using full type names.
 Syntax:
-
 gm show
 # or
 gm --show
 
 Example:
-
 gm show
 
 Output:
-
 📌 Branch: main
 
 FEAT  : 4
@@ -117,40 +115,35 @@ REF   : 0
 TEST  : 1
 
 3. Sync Commit Counts
-
-Synchronize counters with Git commit history.
-
+Synchronize commit counts with the Git history by parsing commit messages, normalizing aliases to full type names.
 Syntax:
-
 gm sync
 
 Example:
-
 gm sync
 
-Result:
+Output:
+✅ Commit counts synchronized with Git history!
 
-    Parses git log for commit patterns
+Details:
 
-    Updates local counter file with correct counts
+Scans Git log for messages in the format [branch] [TYPE count : message].
+Converts aliases (e.g., FE to FEAT, D to DOCS) when updating counts.
+Updates the counter file (~/.git_commit_counts_<project>_<branch>) with the highest count for each type.
+Useful after resetting history, fixing commit messages, or manual counter file changes.
 
-    Useful after history resets or manual edits
+Examples
 
-🔥 Examples
-Create Multiple Commits
-
+Create Multiple Commits with Aliases:
 echo "Fix bug" > fix.txt
 git add fix.txt
-gm "FIX : Fix bug"
-
+gm "FI : Fix bug"
 echo "Update docs" > docs.txt
 git add docs.txt
-gm "DOCS : Update documentation"
-
+gm "D : Update documentation"
 gm show
 
 Output:
-
 📌 Branch: main
 
 FEAT  : 0
@@ -159,48 +152,71 @@ DOCS  : 1
 REF   : 0
 TEST  : 0
 
-Sync After History Reset
+Commit Log:
+git log --pretty=%s
 
+[main] [DOCS 1 : Update documentation]
+[main] [FIX 1 : Fix bug]
+
+
+Sync After Reset:
 git reset --hard HEAD~2
 gm sync
 gm show
 
-    Counters reflect the corrected history after reset!
+Updates counts to reflect the current Git history, normalizing any aliases found in commit messages.
 
-🚨 Error Handling
-Situation	Result
-❌ Invalid message format	Error: Must be "TYPE : message"
-❌ Outside Git repo	Error: "Not inside a Git repository"
-⚠️ Corrupted counter file	Error when showing, auto-fixed by gm sync
-🏗️ Project Structure
 
-git-commit-counter-lib/  ➔ Core library (logic)
-git-commit-counter-bin/  ➔ CLI binary (gm)
-~/.git_commit_counts_<project>_<branch> ➔ Local counter file
+Error Handling
 
-🤝 Contributing
+Invalid Commit Message:
+gm "FE Invalid message"
 
-Contributions are welcome! 🎉
+Output: ❌ Commit message must be in the format "TYPE : message"
 
-    Fork the repository
+Non-Git Repository:
+cd /tmp
+gm show
 
-    Create a new feature branch:
+Output: ❌ Error: Git error: Not inside a Git repository
 
-git checkout -b feature/YourFeature
+Corrupted Counter File:If the counter file contains invalid data, gm show reports a parse error, and gm sync can fix it by rebuilding counts from the Git history.
 
-Commit your changes using:
 
-    gm "FEAT : Add your feature" 😉
+Fixing Historical Commits
+If your Git history contains commits with aliases (e.g., [branch] [D 1 : message]), you can rewrite them to use full type names:
+git rebase -i <commit-before-problematic-commits>
 
-    Push to GitHub and open a Pull Request.
+For each commit, change pick to edit, then amend the message:
+git commit --amend
 
-📜 License
+Replace the alias with the full type (e.g., D to DOCS). Continue the rebase:
+git rebase --continue
 
-This project is licensed under the MIT License.
-See LICENSE file for details.
-📬 Contact
+After rewriting, synchronize counts:
+gm sync
 
-Created by zxfae.
-Report issues or suggest features via GitHub Issues.
+If the branch was pushed to a remote repository, force push the changes:
+git push origin <branch> --force
+
+Project Structure
+
+git-commit-counter-lib: Core library with commit counting logic.
+git-commit-counter-bin: CLI binary (gm) that uses the library.
+Counter File: Stored at ~/.git_commit_counts_<project>_<branch>.
+
+Contributing
+Contributions are welcome! Please:
+
+Fork the repository.
+Create a feature branch (git checkout -b feature/YourFeature).
+Commit changes using the tool (gm "F : Add your feature" 😉).
+Push to the branch (git push origin feature/YourFeature).
+Open a pull request.
+
+License
+MIT License. See LICENSE for details.
+Contact
+Created by zxfae. Report issues or suggest features on the GitHub repository.
 
 Last updated: April 26, 2025
