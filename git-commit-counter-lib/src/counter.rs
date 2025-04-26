@@ -158,7 +158,7 @@ impl CommitCounter {
 
         for message in messages.lines() {
             // Check if the message matches the expected format: [branch] [TYPE count : message]
-            if let Some(captures) = regex::Regex::new(r"^\[(.+?)\] \[(.+?) (\d+) : .*\]$")
+            if let Some(captures) = regex::Regex::new(r"\[(.*?)\]\s*\[(.*?)\s*(\d+)\s*:\s*(.*)\]")
                 .unwrap()
                 .captures(message)
             {

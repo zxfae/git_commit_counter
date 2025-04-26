@@ -19,7 +19,6 @@ struct Args {
 #[derive(Subcommand, Debug)]
 enum Commands {
     /// Show commit counts for the current branch
-    #[clap(name = "show", alias = "--show")]
     Show,
     /// Sync commit counts with the Git history
     Sync,
@@ -50,6 +49,7 @@ fn main() {
             }
         },
         Some(Commands::Sync) => match counter.sync_counts() {
+            // Add this arm
             Ok(()) => {
                 println!("✅ Commit counts synchronized with Git history!");
             }
@@ -63,7 +63,7 @@ fn main() {
             let message = match args.message {
                 Some(msg) => msg,
                 None => {
-                    eprintln!("❌ USAGE:\n  gm \"TYPE : msg\"\n  gm show\n gm sync");
+                    eprintln!("❌ USAGE:\n  gm \"TYPE : msg\"\n  gm show\n  gm sync");
                     exit(1);
                 }
             };
