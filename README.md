@@ -45,7 +45,15 @@ gm --help
 ```
 
 **Note:** Ensure `~/.cargo/bin` is in your PATH.
-
+⚠️ IMPORTANT: If you're starting with a newly created repository,
+you MUST make an initial commit before using `gm`:
+```bash
+git commit -m "Initial commit"
+```
+This is required because `gm` works with existing Git repositories
+that have at least one commit. Without an initial commit, you might encounter
+errors when trying to use `gm` with local/remote repositories.
+⚠️
 ## 📚 Usage
 
 Run `gm` in a Git repository to manage commits. Available commands:
