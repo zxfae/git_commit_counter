@@ -7,6 +7,7 @@ Count commits by type (e.g., FEAT, FIX, DOCS, REF, TEST).
 Support for shorthand aliases (e.g., FE for FEAT, D for DOCS) that are automatically converted to full type names in commit messages and counter displays.
 Custom commit types supported (any type not defined as standard or alias).
 Synchronize commit counts with Git history, normalizing aliases to full type names.
+Reset commit counts for a branch to start fresh.
 Branch-specific counters stored in ~/.git_commit_counts_<project>_<branch>.
 Display commit counts for the current branch with consistent formatting.
 Error handling for invalid inputs and non-Git repositories.
@@ -39,7 +40,7 @@ The binary (gm) is installed in ~/.cargo/bin/. Ensure this directory is in your 
 
 
 Usage
-Run gm in a Git repository to manage commits. The tool supports three main commands:
+Run gm in a Git repository to manage commits. The tool supports four main commands:
 1. Create a Commit
 Create a formatted commit with a specific type and message. Aliases (e.g., FE, D) are converted to full type names (e.g., FEAT, DOCS) in the commit message.
 Syntax:
@@ -66,7 +67,7 @@ Description
 
 
 FEAT
-FE
+FE, F
 Feature
 
 
@@ -132,6 +133,22 @@ Converts aliases (e.g., FE to FEAT, D to DOCS) when updating counts.
 Updates the counter file (~/.git_commit_counts_<project>_<branch>) with the highest count for each type.
 Useful after resetting history, fixing commit messages, or manual counter file changes.
 
+4. Reset Commit Counts
+Reset commit counts for the current branch, clearing the counter file to start fresh.
+Syntax:
+gm reset
+
+Example:
+gm reset
+
+Output:
+✅ Commit counts reset
+
+Details:
+
+Deletes the counter file (~/.git_commit_counts_<project>_<branch>) and creates an empty one.
+Useful after major history changes (e.g., rebasing or resetting commits) when you want to restart counting.
+
 Examples
 
 Create Multiple Commits with Aliases:
@@ -159,6 +176,28 @@ git log --pretty=%s
 [main] [FIX 1 : Fix bug]
 
 
+Reset and Start Fresh:
+gm reset
+gm show
+
+Output:
+📌 Branch: main
+
+FEAT  : 0
+FIX   : 0
+DOCS  : 0
+REF   : 0
+TEST  : 0
+
+Create a new commit:
+echo "New feature" > feature.txt
+git add feature.txt
+gm "FE : Add new feature"
+
+Commit Log:
+[main] [FEAT 1 : Add new feature]
+
+
 Sync After Reset:
 git reset --hard HEAD~2
 gm sync
@@ -180,7 +219,7 @@ gm show
 
 Output: ❌ Error: Git error: Not inside a Git repository
 
-Corrupted Counter File:If the counter file contains invalid data, gm show reports a parse error, and gm sync can fix it by rebuilding counts from the Git history.
+Corrupted Counter File:If the counter file contains invalid data, gm show reports a parse error, and gm sync or gm reset can fix it.
 
 
 Fixing Historical Commits
