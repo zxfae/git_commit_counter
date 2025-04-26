@@ -1,0 +1,12 @@
+[package]
+name = "git-commit-counter-bin"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "gm"
+path = "src/main.rs"
+
+[dependencies]
+git-commit-counter-lib = { path = "../git-commit-counter-lib" }
+clap = { version = "4.0", features = ["derive"] }

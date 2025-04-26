@@ -1,0 +1,53 @@
+//! Commit type definitions for Git Commit Counter
+
+use std::fmt;
+
+/// Types of commits
+#[derive(Debug, PartialEq, Eq, Hash, Clone)]
+pub enum CommitType {
+    Feature,
+    Fix,
+    Documentation,
+    Refactor,
+    Test,
+    Custom(String),
+}
+
+impl CommitType {
+    /// Create a commit type from a string
+    pub fn from_str(s: &str) -> Self {
+        match s.trim().to_uppercase().as_str() {
+            "FEAT" => CommitType::Feature,
+            "FIX" => CommitType::Fix,
+            "DOCS" => CommitType::Documentation,
+            "REF" => CommitType::Refactor,
+            "TEST" => CommitType::Test,
+            custom => CommitType::Custom(custom.to_string()),
+        }
+    }
+
+    /// Get all standard commit types
+    pub fn standard_types() -> Vec<CommitType> {
+        vec![
+            CommitType::Feature,
+            CommitType::Fix,
+            CommitType::Documentation,
+            CommitType::Refactor,
+            CommitType::Test,
+        ]
+    }
+}
+
+impl fmt::Display for CommitType {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let s = match self {
+            CommitType::Feature => "FEAT",
+            CommitType::Fix => "FIX",
+            CommitType::Documentation => "DOCS",
+            CommitType::Refactor => "REF",
+            CommitType::Test => "TEST",
+            CommitType::Custom(s) => s,
+        };
+        write!(f, "{}", s)
+    }
+}
