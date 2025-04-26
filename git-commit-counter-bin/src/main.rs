@@ -26,7 +26,7 @@ enum Commands {
 
 fn main() {
     let args = Args::parse();
-    eprintln!("Parsed args : {:?}", args);
+
     // Create a counter with real Git operations
     let git_ops = Box::new(RealGitOps);
     let counter = match CommitCounter::new(git_ops) {
