@@ -14,7 +14,7 @@ use std::process::exit;
         Aliases (e.g., `FE`, `D`) are converted to full type \
         names (e.g., `FEAT`, `DOCS`) in commit messages and displays.\n\n\
         Supported Types:\n\
-        FEAT   Feature (aliases: FE, F)\n\
+        FEAT   Feature (aliases: FE)\n\
         FIX    Bug fix (alias: FI)\n\
         DOCS   Documentation (alias: D)\n\
         REF    Refactor (alias: R)\n\
