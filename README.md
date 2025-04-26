@@ -1,8 +1,8 @@
-# VGit Commit Counter 🚀
+# Git Commit Counter
+![image](file.png)
+A simple Rust CLI tool to format, count, and manage Git commits by type (e.g., FEAT, FIX, DOCS, TEST..). Keep your commit history clean and track your progress!
 
-A simple Rust CLI tool to format, count, and manage Git commits by type (e.g., FEAT, FIX, DOCS). Keep your commit history clean and track your progress!
-
-## ✨ Features
+## Features
 
 - 📝 Formats commits as `[branch] [TYPE count : message]`
 - 🔢 Counts commits by type (e.g., FEAT: 3, FIX: 1)
@@ -12,7 +12,7 @@ A simple Rust CLI tool to format, count, and manage Git commits by type (e.g., F
 - 🛠️ Custom types allowed
 - 📂 Stores counts per branch in `~/.git_commit_counts_<project>_<branch>`
 
-## 🛠️ Installation
+## 🛠️ Installation 🛠️
 
 ### Prerequisites
 
@@ -20,6 +20,8 @@ A simple Rust CLI tool to format, count, and manage Git commits by type (e.g., F
 - 📚 Git
 
 ### Steps
+(Ensure you don't have the alias gm on your .bashrc or .zshrc file
+alias gm. If present before theses steps write 'unalias gm')
 
 1. Clone the repo:
 ```bash
@@ -60,6 +62,20 @@ gm "FE : Add cool feature"
 
 Output: `Commit message [main] [FEAT 1 : Add cool feature]`
 
+## 🏷️ Supported Types & Aliases
+
+| Type | Aliases | Description |
+|------|---------|-------------|
+| FEAT | FE      | Feature     |
+| FIX  | FI      | Bug fix     |
+| DOCS | D       | Documentation |
+| REF  | R       | Refactor    |
+| TEST | T       | Test        |
+| Custom | Any string | Custom type |
+
+Aliases are converted to full type names (e.g., FE → FEAT) in commits and displays.
+
+
 ### 2. Show Commit Counts
 
 ```bash
@@ -96,18 +112,6 @@ gm reset
 
 Output: `✅ Commit counts reset`
 
-## 🏷️ Supported Types & Aliases
-
-| Type | Aliases | Description |
-|------|---------|-------------|
-| FEAT | FE      | Feature     |
-| FIX  | FI      | Bug fix     |
-| DOCS | D       | Documentation |
-| REF  | R       | Refactor    |
-| TEST | T       | Test        |
-| Custom | Any string | Custom type |
-
-Aliases are converted to full type names (e.g., FE → FEAT) in commits and displays.
 
 ## 🌟 Examples
 
