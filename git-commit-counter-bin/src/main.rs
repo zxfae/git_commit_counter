@@ -19,12 +19,15 @@ struct Args {
 #[derive(Subcommand, Debug)]
 enum Commands {
     /// Show commit counts for the current branch
+    #[clap(name = "show", alias = "--show")]
     Show,
+    /// Sync commit counts with the Git history
+    Sync,
 }
 
 fn main() {
     let args = Args::parse();
-
+    eprintln!("Parsed args : {:?}", args);
     // Create a counter with real Git operations
     let git_ops = Box::new(RealGitOps);
     let counter = match CommitCounter::new(git_ops) {
@@ -46,12 +49,21 @@ fn main() {
                 exit(1);
             }
         },
+        Some(Commands::Sync) => match counter.sync_counts() {
+            Ok(()) => {
+                println!("✅ Commit counts synchronized with Git history!");
+            }
+            Err(e) => {
+                eprintln!("❌ Error syncing counts: {}", e);
+                exit(1);
+            }
+        },
         None => {
             // Handle commit message
             let message = match args.message {
                 Some(msg) => msg,
                 None => {
-                    eprintln!("❌ USAGE:\n  gm \"TYPE : msg\"\n  gm show");
+                    eprintln!("❌ USAGE:\n  gm \"TYPE : msg\"\n  gm show\n gm sync");
                     exit(1);
                 }
             };

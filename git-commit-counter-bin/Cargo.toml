@@ -9,4 +9,4 @@ path = "src/main.rs"
 
 [dependencies]
 git-commit-counter-lib = { path = "../git-commit-counter-lib" }
-clap = { version = "4.0", features = ["derive"] }
+clap = { version = "4.5.37", features = ["derive"] }

@@ -1,5 +1,4 @@
 //! Counter logic for Git Commit Counter
-
 use crate::commit_types::CommitType;
 use crate::config::Config;
 use crate::error::CommitCounterError;
@@ -7,6 +6,7 @@ use crate::git::GitOperations;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader, Write};
+use std::process::Command;
 
 /// Counter for Git commits
 pub struct CommitCounter {
@@ -131,5 +131,66 @@ impl CommitCounter {
         }
 
         Ok(output)
+    }
+
+    /// Sync commit counts with the Git history
+    pub fn sync_counts(&self) -> Result<(), CommitCounterError> {
+        // Get the commit history using git log
+        let output = Command::new("git")
+            .args([
+                "log",
+                "--pretty=format:%s", // Only get the commit message
+                "--first-parent",     // Follow only the first parent (simplify merges)
+            ])
+            .output()
+            .map_err(|e| CommitCounterError::GitError(format!("Failed to read git log: {}", e)))?;
+
+        if !output.status.success() {
+            return Err(CommitCounterError::GitError(
+                "Failed to read git history".to_string(),
+            ));
+        }
+
+        // Parse commit messages to extract types and counts
+        let mut counts: HashMap<String, u32> = HashMap::new();
+        let messages = String::from_utf8_lossy(&output.stdout);
+        let branch_name = self.config.branch_name();
+
+        for message in messages.lines() {
+            // Check if the message matches the expected format: [branch] [TYPE count : message]
+            if let Some(captures) = regex::Regex::new(r"^\[(.+?)\] \[(.+?) (\d+) : .*\]$")
+                .unwrap()
+                .captures(message)
+            {
+                let msg_branch = captures.get(1).map(|m| m.as_str()).unwrap_or("");
+                let type_str = captures.get(2).map(|m| m.as_str()).unwrap_or("");
+                let count: u32 = captures
+                    .get(3)
+                    .map(|m| m.as_str())
+                    .unwrap_or("0")
+                    .parse()
+                    .map_err(|e| {
+                        CommitCounterError::ParseError(format!("Invalid count in message: {}", e))
+                    })?;
+
+                // Only process messages for the current branch
+                if msg_branch == branch_name {
+                    // Update the count if it's the highest for this type
+                    let current_count = counts.get(type_str).copied().unwrap_or(0);
+                    if count > current_count {
+                        counts.insert(type_str.to_string(), count);
+                    }
+                }
+            }
+        }
+
+        // Update the counter file with the new counts
+        let file_path = self.config.counter_file_path();
+        let mut file = File::create(file_path)?;
+        for (type_str, count) in counts {
+            writeln!(file, "{} {}", type_str, count)?;
+        }
+
+        Ok(())
     }
 }
