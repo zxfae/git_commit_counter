@@ -6,7 +6,15 @@ use std::process::exit;
 
 /// Git Commit Counter - A tool to format and count git commits
 #[derive(Parser, Debug)]
-#[clap(author, version, about)]
+#[clap(
+    author,
+    version,
+    about,
+    long_about = "A CLI tool to format and count Git commits by type.\n\
+    Supported types: FEAT(alias: FE), FIX(alias: FI), DOCS(alias: D), \
+    REFACTO(alias R), TEST(alias T), or any custom type.\n \
+    Commit messages mut be in the format 'TYPE : message'."
+)]
 struct Args {
     #[clap(subcommand)]
     command: Option<Commands>,

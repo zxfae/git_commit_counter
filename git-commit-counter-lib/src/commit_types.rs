@@ -20,7 +20,7 @@ impl CommitType {
             "FEAT" | "FE" => CommitType::Feature,
             "FIX" | "FI" => CommitType::Fix,
             "DOCS" | "D" => CommitType::Documentation,
-            "REF" | "R" => CommitType::Refactor,
+            "REFACTO" | "R" => CommitType::Refactor,
             "TEST" | "T" => CommitType::Test,
             custom => CommitType::Custom(custom.to_string()),
         }
