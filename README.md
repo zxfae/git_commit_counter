@@ -1,81 +1,215 @@
 Git Commit Counter
-A Rust-based CLI tool to format Git commit messages and track commit counts by type for each branch in a Git repository.
+
+A Rust-based CLI tool to format, count, and synchronize Git commits based on their type (e.g., FEAT, FIX, DOCS) and branch. It helps developers maintain consistent commit messages and track commit counts per type.
 Features
 
-Format commit messages with a standardized structure: [branch] [TYPE count : message].
-Track and increment commit counts per commit type (e.g., FEAT, FIX, DOCS) on a per-branch basis.
-Support for standard commit types (FEAT, FIX, DOCS, REF, TEST) and custom types.
-Display commit counts for the current branch with the show command.
+    Format commit messages with a standardized structure: [branch] [TYPE count : message].
+
+    Count commits by type (e.g., FEAT, FIX, DOCS, REF, TEST,- Custom types supported.
+
+    Synchronize commit counts with Git history.
+
+    Branch-specific counters stored in ~/.git_commit_counts_<project>_<branch>.
+
+    Display commit counts for the current branch.
+
+    Error handling for invalid inputs and non-Git repositories.
 
 Installation
-Prerequisites
 
-Rust (install via rustup).
-Git installed and configured.
-A Git repository to work in.
+    Prerequisites:
 
-Steps
+        Rust (version 1.86.0 or later).
 
-Clone the repository or navigate to the project directory:
-cd path/to/git-commit-counter
+        Git installed and configured.
 
+    Clone the Repository:
+    bash
 
-Build the project:
-cargo build --release
+    git clone https://github.com/zxfae/git_commit_counter.git
+    cd git_commit_counter
 
+    Build the Project:
+    bash
 
-(Optional) Install the gm command globally:
-cargo install --path git-commit-counter-bin
+    cargo build --release
 
-Ensure ~/.cargo/bin is in your $PATH:
-export PATH="$HOME/.cargo/bin:$PATH"
+    Install the Binary:
+    bash
 
+    cargo install --path git-commit-counter-bin --force
 
+    Verify Installation:
+    bash
+
+    gm --help
+
+    The binary (gm) is installed in ~/.cargo/bin/. Ensure this directory is in your PATH.
 
 Usage
-The tool is invoked using the gm command in a Git repository.
-Create a Formatted Commit
-To create a commit with a formatted message and increment the counter for the specified type:
+
+Run gm in a Git repository to manage commits. The tool supports three main commands:
+1. Create a Commit
+
+Create a formatted commit with a specific type and message.
+
+Syntax:
+bash
+
 gm "TYPE : message"
 
+Example:
+bash
 
-TYPE: One of FEAT, FIX, DOCS, REF, TEST, or a custom type.
-Example:gm "FEAT : add user authentication"
+echo "New feature" > feature.txt
+git add feature.txt
+gm "FEAT : Add new feature"
 
+Output:
 
-Output commit message: [main] [FEAT 1 : add user authentication]
+    Creates a commit with message: [main] [FEAT 1 : Add new feature].
 
-Show Commit Counts
-To display the number of commits by type for the current branch:
+    Increments the FEAT counter for the current branch.
+
+Supported Types:
+
+    Standard: FEAT, FIX, DOCS, REF, TEST.
+
+    Custom: Any other string (e.g., CUSTOM).
+
+2. Show Commit Counts
+
+Display commit counts for the current branch.
+
+Syntax:
+bash
+
+gm show
+# or
+gm --show
+
+Example:
+bash
+
 gm show
 
+Output:
+plain
 
-Example output:📌 Branch: main
+📌 Branch: main
 
-FEAT  : 3
+FEAT  : 4
 FIX   : 1
-DOCS  : 0
-REF   : 2
-TEST  : 0
-CUSTOM: 1
+DOCS  : 2
+REF   : 0
+TEST  : 1
 
+3. Sync Commit Counts
 
+Synchronize commit counts with the Git history by parsing commit messages.
 
-Notes
+Syntax:
+bash
 
-Ensure you are in a Git repository, or the tool will return an error.
-The commit message must follow the TYPE : message format.
-Commit counts are stored in ~/.git_commit_counts_<project>_<branch>.
+gm sync
+
+Example:
+bash
+
+gm sync
+
+Output:
+plain
+
+✅ Commit counts synchronized with Git history!
+
+Details:
+
+    Scans Git log for messages in the format [branch] [TYPE count : message].
+
+    Updates the counter file (~/.git_commit_counts_<project>_<branch>) with the highest count for each type.
+
+    Useful after resetting history or manual counter file changes.
+
+Examples
+
+    Create Multiple Commits:
+    bash
+
+    echo "Fix bug" > fix.txt
+    git add fix.txt
+    gm "FIX : Fix bug"
+    echo "Update docs" > docs.txt
+    git add docs.txt
+    gm "DOCS : Update documentation"
+    gm show
+
+    Output:
+    plain
+
+    📌 Branch: main
+
+    FEAT  : 0
+    FIX   : 1
+    DOCS  : 1
+    REF   : 0
+    TEST  : 0
+
+    Sync After Reset:
+    bash
+
+    git reset --hard HEAD~2
+    gm sync
+    gm show
+
+    Updates counts to reflect the current Git history.
+
+Error Handling
+
+    Invalid Commit Message:
+    bash
+
+    gm "FEAT Invalid message"
+
+    Output: ❌ Commit message must be in the format "TYPE : message"
+
+    Non-Git Repository:
+    bash
+
+    cd /tmp
+    gm show
+
+    Output: ❌ Error: Git error: Not inside a Git repository
+
+    Corrupted Counter File: If the counter file contains invalid data, gm show reports a parse error, and gm sync can fix it.
 
 Project Structure
 
-git-commit-counter-lib: Library crate containing the core logic (commit types, counters, Git operations).
-git-commit-counter-bin: Binary crate providing the gm CLI tool.
-Workspace: Combines both crates for easy development.
+    git-commit-counter-lib: Core library with commit counting logic.
+
+    git-commit-counter-bin: CLI binary (gm) that uses the library.
+
+    Counter File: Stored at ~/.git_commit_counts_<project>_<branch>.
 
 Contributing
-Contributions are welcome! Please open an issue or submit a pull request with your changes.
+
+Contributions are welcome! Please:
+
+    Fork the repository.
+
+    Create a feature branch (git checkout -b feature/YourFeature).
+
+    Commit changes (gm "FEAT : Add your feature" 😉).
+
+    Push to the branch (git push origin feature/YourFeature).
+
+    Open a pull request.
+
 License
-This project is licensed under the MIT License.
-Author
-Philippe Lecrosnier (alias ZxFae33) lecro.philippe@icloud.com
+
+MIT License. See LICENSE for details.
+Contact
+
+Created by zxfae. Report issues or suggest features on the GitHub repository.
+
+Last updated: April 26, 2025
