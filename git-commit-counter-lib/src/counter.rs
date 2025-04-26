@@ -4,7 +4,7 @@ use crate::config::Config;
 use crate::error::CommitCounterError;
 use crate::git::GitOperations;
 use std::collections::HashMap;
-use std::fs::File;
+use std::fs::{self, File};
 use std::io::{BufRead, BufReader, Write};
 use std::process::Command;
 
@@ -200,6 +200,19 @@ impl CommitCounter {
             writeln!(file, "{} {}", type_str, count)?;
         }
 
+        Ok(())
+    }
+
+    pub fn reset_counts(&self) -> Result<(), CommitCounterError> {
+        let file_path = self.config.counter_file_path();
+        if file_path.exists() {
+            fs::remove_file(file_path).map_err(|e| {
+                CommitCounterError::FileError(format!("Failed to remove counter file: {}", e))
+            })?;
+        }
+        File::create(file_path).map_err(|e| {
+            CommitCounterError::FileError(format!("Failed to create counter file: {}", e))
+        })?;
         Ok(())
     }
 }

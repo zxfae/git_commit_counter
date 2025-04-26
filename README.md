@@ -66,7 +66,7 @@ Description
 
 
 FEAT
-FE, F
+FE
 Feature
 
 

@@ -4,9 +4,25 @@ use clap::{Parser, Subcommand};
 use git_commit_counter_lib::{CommitCounter, CommitType, RealGitOps};
 use std::process::exit;
 
-/// Git Commit Counter - A tool to format and count git commits
+/// Git Commit Counter
 #[derive(Parser, Debug)]
-#[clap(author, version, about)]
+#[clap(
+    about = "A CLI tool to format and count Git commits by type",
+    long_about = "Git Commit Counter\n\n\
+        A CLI tool to format and count Git commits by type. Commit messages are formatted as \
+        `[branch] [TYPE count : message]`.\n\
+        Aliases (e.g., `FE`, `D`) are converted to full type \
+        names (e.g., `FEAT`, `DOCS`) in commit messages and displays.\n\n\
+        Supported Types:\n\
+        FEAT   Feature (aliases: FE, F)\n\
+        FIX    Bug fix (alias: FI)\n\
+        DOCS   Documentation (alias: D)\n\
+        REF    Refactor (alias: R)\n\
+        TEST   Test (alias: T)\n\
+        Custom Any other string\n\n\
+        Commit messages must be in the format 'TYPE : message' (e.g., 'FE : Add feature').",
+    version
+)]
 struct Args {
     #[clap(subcommand)]
     command: Option<Commands>,
@@ -22,6 +38,8 @@ enum Commands {
     Show,
     /// Sync commit counts with the Git history
     Sync,
+    /// Reset commit counts for the current branch
+    Reset,
 }
 
 fn main() {
@@ -49,7 +67,6 @@ fn main() {
             }
         },
         Some(Commands::Sync) => match counter.sync_counts() {
-            // Add this arm
             Ok(()) => {
                 println!("✅ Commit counts synchronized with Git history!");
             }
@@ -58,12 +75,21 @@ fn main() {
                 exit(1);
             }
         },
+        Some(Commands::Reset) => match counter.reset_counts() {
+            Ok(()) => {
+                println!("✅ Commit counts reset");
+            }
+            Err(e) => {
+                eprintln!("❌ Error resetting counts: {}", e);
+                exit(1);
+            }
+        },
         None => {
             // Handle commit message
             let message = match args.message {
                 Some(msg) => msg,
                 None => {
-                    eprintln!("❌ USAGE:\n  gm \"TYPE : msg\"\n  gm show\n  gm sync");
+                    eprintln!("❌ USAGE:\n  gm \"TYPE : msg\"\n  gm show\n  gm sync\n  gm reset");
                     exit(1);
                 }
             };

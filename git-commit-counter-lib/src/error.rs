@@ -17,4 +17,7 @@ pub enum CommitCounterError {
 
     #[error("Validation error: {0}")]
     ValidationError(String),
+
+    #[error("Read file error: {0}")]
+    FileError(String),
 }
