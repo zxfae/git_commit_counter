@@ -2,6 +2,7 @@
 
 Git Commit Counter is a Rust-based CLI tool for formatting, counting, and synchronizing Git commits based on their type (e.g., FEAT, FIX, DOCS) and branch.
 
+
 It helps developers:
 
     Maintain consistent commit messages 🛠️
