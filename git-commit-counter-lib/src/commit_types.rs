@@ -17,11 +17,11 @@ impl CommitType {
     /// Create a commit type from a string
     pub fn from_str(s: &str) -> Self {
         match s.trim().to_uppercase().as_str() {
-            "FEAT" => CommitType::Feature,
-            "FIX" => CommitType::Fix,
-            "DOCS" => CommitType::Documentation,
-            "REF" => CommitType::Refactor,
-            "TEST" => CommitType::Test,
+            "FEAT" | "FE" => CommitType::Feature,
+            "FIX" | "FI" => CommitType::Fix,
+            "DOCS" | "D" => CommitType::Documentation,
+            "REFACTOR" | "R" => CommitType::Refactor,
+            "TEST" | "T" => CommitType::Test,
             custom => CommitType::Custom(custom.to_string()),
         }
     }
@@ -44,7 +44,7 @@ impl fmt::Display for CommitType {
             CommitType::Feature => "FEAT",
             CommitType::Fix => "FIX",
             CommitType::Documentation => "DOCS",
-            CommitType::Refactor => "REF",
+            CommitType::Refactor => "REFACTOR",
             CommitType::Test => "TEST",
             CommitType::Custom(s) => s,
         };
