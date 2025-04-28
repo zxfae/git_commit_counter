@@ -16,7 +16,7 @@ A simple Rust CLI tool to format, count, and manage Git commits by type (e.g., F
 
 ### Prerequisites
 
-- 🦀 Rust (1.86.0 or later)
+- 🦀 Rust (>=1.86.0 )
 - 📚 Git
 
 ### Steps
