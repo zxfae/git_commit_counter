@@ -117,6 +117,7 @@ Format: `gm "TYPE : message"`
 echo "New feature" > feature.txt
 git add feature.txt
 gm "FE : Add cool feature"
+git push
 ```
 
 Output: `Commit message [main] [FEAT 1 : Add cool feature]`
