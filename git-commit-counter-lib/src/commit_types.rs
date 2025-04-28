@@ -48,6 +48,6 @@ impl fmt::Display for CommitType {
             CommitType::Test => "TEST",
             CommitType::Custom(s) => s,
         };
-        write!(f, "{}", s)
+        write!(f, "{}", s.to_uppercase())
     }
 }
