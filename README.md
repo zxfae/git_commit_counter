@@ -1,5 +1,5 @@
 # Git Commit Counter
-![image](file.png)
+![image](./DOCS/file.png)
 A simple Rust CLI tool to format, count, and manage Git commits by type (e.g., FEAT, FIX, DOCS, TEST..). Keep your commit history clean and track your progress!
 
 ## Features
