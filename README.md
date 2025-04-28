@@ -43,8 +43,20 @@ cargo install --path git-commit-counter-bin --force
 ```bash
 gm --help
 ```
+Output:
+
+![alt text](image.png)
+
+5. Add the `alias` if you have not the same output:
+
+for `bash` or `zshrc`
+```bash
+alias gm="$HOME/.cargo/bin/gm"
+source ~/.bashrc
+```
 
 **Note:** Ensure `~/.cargo/bin` is in your PATH.
+
 ⚠️ IMPORTANT: If you're starting with a newly created repository,
 you MUST make an initial commit before using `gm`:
 ```bash
