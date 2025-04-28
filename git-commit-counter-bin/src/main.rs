@@ -11,8 +11,8 @@ use std::process::exit;
     version,
     about,
     long_about = "A CLI tool to format and count Git commits by type.\n\
-    Supported types: FEAT(alias: FE), FIX(alias: FI), DOCS(alias: D), \
-    REFACTO(alias R), TEST(alias T), or any custom type.\n \
+    Supported types: FEAT(alias: FE), FIXE(alias: FI), DOCS(alias: D), \
+    REFA(alias R), TEST(alias T), or any custom type.\n \
     Commit messages mut be in the format 'TYPE : message'."
 )]
 struct Args {
