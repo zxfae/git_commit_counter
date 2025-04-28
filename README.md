@@ -54,21 +54,6 @@ This is required because `gm` works with existing Git repositories
 that have at least one commit. Without an initial commit, you might encounter
 errors when trying to use `gm` with local/remote repositories.
 ⚠️
-## 📚 Usage
-
-Run `gm` in a Git repository to manage commits. Available commands:
-
-### 1. Create a Commit
-
-Format: `gm "TYPE : message"`
-
-```bash
-echo "New feature" > feature.txt
-git add feature.txt
-gm "FE : Add cool feature"
-```
-
-Output: `Commit message [main] [FEAT 1 : Add cool feature]`
 
 ## 🏷️ Supported Types & Aliases
 
@@ -107,6 +92,24 @@ _   Windows:
         In %APPDATA%\git_commit_counter\<project>_<branch>.counts (e.g., C:\Users\<Username>\AppData\Roaming\git_commit_counter\).
 
 No files are created in the Git repository or directly in the user's home directory, ensuring a clean and organized environment.
+
+## 📚 Usage
+
+Run `gm` in a Git repository to manage commits. Available commands:
+
+### 1. Create a Commit
+
+Format: `gm "TYPE : message"`
+
+```bash
+echo "New feature" > feature.txt
+git add feature.txt
+gm "FE : Add cool feature"
+```
+
+Output: `Commit message [main] [FEAT 1 : Add cool feature]`
+
+
 
 
 ### 2. Show Commit Counts
