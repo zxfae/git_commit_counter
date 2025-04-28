@@ -18,9 +18,9 @@ impl CommitType {
     pub fn from_str(s: &str) -> Self {
         match s.trim().to_uppercase().as_str() {
             "FEAT" | "FE" => CommitType::Feature,
-            "FIX" | "FI" => CommitType::Fix,
+            "FIXE" | "FI" => CommitType::Fix,
             "DOCS" | "D" => CommitType::Documentation,
-            "REFACTOR" | "R" => CommitType::Refactor,
+            "REFA" | "R" => CommitType::Refactor,
             "TEST" | "T" => CommitType::Test,
             custom => CommitType::Custom(custom.to_string()),
         }
@@ -42,9 +42,9 @@ impl fmt::Display for CommitType {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let s = match self {
             CommitType::Feature => "FEAT",
-            CommitType::Fix => "FIX",
+            CommitType::Fix => "FIXE",
             CommitType::Documentation => "DOCS",
-            CommitType::Refactor => "REFACTOR",
+            CommitType::Refactor => "REFA",
             CommitType::Test => "TEST",
             CommitType::Custom(s) => s,
         };
