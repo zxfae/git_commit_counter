@@ -1,7 +1,7 @@
 //! Configuration for Git Commit Counter
 
 use crate::error::CommitCounterError;
-use crate::git::{get_project_name, GitOperations, RealGitOps};
+use crate::git::{GitOperations, RealGitOps, get_project_name};
 use std::path::{Path, PathBuf};
 
 /// Configuration for the Git Commit Counter
