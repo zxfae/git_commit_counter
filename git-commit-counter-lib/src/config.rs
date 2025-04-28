@@ -1,7 +1,9 @@
 //! Configuration for Git Commit Counter
 
+use dirs::config_dir;
+
 use crate::error::CommitCounterError;
-use crate::git::{get_project_name, GitOperations, RealGitOps};
+use crate::git::{GitOperations, RealGitOps, get_project_name};
 use std::path::{Path, PathBuf};
 
 /// Configuration for the Git Commit Counter
@@ -18,19 +20,27 @@ impl Config {
         let branch = git_ops.get_branch()?;
         let project = get_project_name()?;
 
-        let mut path = dirs::home_dir().ok_or_else(|| {
+        let mut config_path = config_dir().ok_or_else(|| {
             CommitCounterError::IoError(std::io::Error::new(
                 std::io::ErrorKind::NotFound,
                 "Home directory not found",
             ))
         })?;
 
-        path.push(format!(".git_commit_counts_{}_{}", project, branch));
+        config_path.push("git_commit_counter");
+
+        std::fs::create_dir_all(&config_path).map_err(|e| {
+            CommitCounterError::IoError(std::io::Error::new(
+                std::io::ErrorKind::Other,
+                format!("Failed to create configuration repository : {}", e),
+            ))
+        })?;
+        config_path.push(format!("{}_{}.counts", project, branch));
 
         Ok(Config {
             project_name: project,
             branch_name: branch,
-            counter_file_path: path,
+            counter_file_path: config_path,
         })
     }
 
