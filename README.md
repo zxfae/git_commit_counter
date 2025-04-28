@@ -19,23 +19,6 @@ A simple Rust CLI tool to format, count, and manage Git commits by type (e.g., F
 - 🦀 Rust (1.86.0 or later)
 - 📚 Git
 
-### Storage Location for Counter Files
-
-Git Commit Counter stores commit counter files in locations that comply with platform-specific configuration standards:
-
-_   Linux/macOS:
-
-        In $XDG_CONFIG_HOME/git_commit_counter/<project>_<branch>.counts if $XDG_CONFIG_HOME is set.
-
-        Otherwise, in ~/.config/git_commit_counter/<project>_<branch>.counts, following the XDG Base Directory Specification.
-
-_   Windows:
-
-        In %APPDATA%\git_commit_counter\<project>_<branch>.counts (e.g., C:\Users\<Username>\AppData\Roaming\git_commit_counter\).
-
-No files are created in the Git repository or directly in the user's home directory, ensuring a clean and organized environment.
-
-
 ### Steps
 (Ensure you don't have the alias gm on your .bashrc or .zshrc file
 alias gm. If present before theses steps write 'unalias gm')
@@ -107,6 +90,23 @@ Aliases are converted to full type names (e.g., FE → FEAT) in commits and disp
 | gm show  | Display commit counts by type      | Review progress and balance work type     |
 | gm sync | Sync counts with Git history       | Run after making manual Git changes |
 | gm reset  | reset commit counts for current branch       | Use after major refactors or resets    |
+
+
+### Storage Location for Counter Files
+
+Git Commit Counter stores commit counter files in locations that comply with platform-specific configuration standards:
+
+_   Linux/macOS:
+
+        In $XDG_CONFIG_HOME/git_commit_counter/<project>_<branch>.counts if $XDG_CONFIG_HOME is set.
+
+        Otherwise, in ~/.config/git_commit_counter/<project>_<branch>.counts, following the XDG Base Directory Specification.
+
+_   Windows:
+
+        In %APPDATA%\git_commit_counter\<project>_<branch>.counts (e.g., C:\Users\<Username>\AppData\Roaming\git_commit_counter\).
+
+No files are created in the Git repository or directly in the user's home directory, ensuring a clean and organized environment.
 
 
 ### 2. Show Commit Counts
