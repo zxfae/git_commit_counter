@@ -5,7 +5,7 @@ A simple Rust CLI tool to format, count, and manage Git commits by type (e.g., F
 ## Features
 
 - 📝 Formats commits as `[branch] [TYPE count : message]`
-- 🔢 Counts commits by type (e.g., FEAT: 3, FIX: 1)
+- 🔢 Counts commits by type (e.g., FEAT: 3, FIXE: 1)
 - 🏷️ Supports aliases (e.g., FE → FEAT, D → DOCS)
 - 🔄 Syncs counts with Git history
 - 🧹 Resets counts for a fresh start
@@ -92,13 +92,21 @@ Output: `Commit message [main] [FEAT 1 : Add cool feature]`
 | Type | Aliases | Description |
 |------|---------|-------------|
 | FEAT | FE      | Feature     |
-| FIX  | FI      | Bug fix     |
+| FIXE  | FI      | Bug fix     |
 | DOCS | D       | Documentation |
-| REF  | R       | Refactor    |
+| REFA  | R       | Refactor    |
 | TEST | T       | Test        |
 | Custom | Any string | Custom type |
 
 Aliases are converted to full type names (e.g., FE → FEAT) in commits and displays.
+
+## Good practices
+| Command | Purpose | Practice |
+|------|---------|-------------|
+| gm "TYPE : msg" | Create a formatted commit      | Use clear, single purpose message     |
+| gm show  | Display commit counts by type      | Review progress and balance work type     |
+| gm sync | Sync counts with Git history       | Run after making manual Git changes |
+| gm reset  | reset commit counts for current branch       | Use after major refactors or resets    |
 
 
 ### 2. Show Commit Counts
@@ -111,9 +119,9 @@ Output:
 ```
 📌 Branch: main
 FEAT  : 2
-FIX   : 1
+FIXE   : 1
 DOCS  : 0
-REF   : 0
+REFA   : 0
 TEST  : 0
 ```
 
@@ -166,9 +174,9 @@ Output:
 ```
 📌 Branch: main
 FEAT  : 0
-FIX   : 1
+FIXE   : 1
 DOCS  : 1
-REF   : 0
+REFA   : 0
 TEST  : 0
 ```
 
@@ -183,9 +191,9 @@ Output:
 ```
 📌 Branch: main
 FEAT  : 0
-FIX   : 0
+FIXE   : 0
 DOCS  : 0
-REF   : 0
+REFA   : 0
 TEST  : 0
 ```
 
