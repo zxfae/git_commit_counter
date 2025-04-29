@@ -104,16 +104,8 @@ impl CommitCounter {
         message: &str,
     ) -> Result<(), CommitCounterError> {
         let count = self.increment_count(commit_type)?;
-        eprintln!(
-            "DEBUG: Formatting commit message with type: {:?}",
-            commit_type
-        );
-        let formatted_message = self.format_commit_message(commit_type, count, message);
-        eprintln!(
-            "DEBUG: Formatting commit message with type: {:?}",
-            commit_type
-        );
 
+        let formatted_message = self.format_commit_message(commit_type, count, message);
         self.git_ops.commit(&formatted_message)
     }
 
