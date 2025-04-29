@@ -10,3 +10,8 @@ version = "0.9.0"
 edition = "2024"
 authors = ["Philippe lecrosnier alias ZxFae33 <lecro.philippe@icloud.com>"]
 description = "A Git commit counter and formatter tool"
+
+
+[profile.release]
+codegen-units = 1
+lto = true
