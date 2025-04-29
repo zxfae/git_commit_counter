@@ -35,13 +35,21 @@ impl Config {
                 format!("Failed to create configuration repository : {}", e),
             ))
         })?;
-        config_path.push(format!("{}_{}.counts", project, branch));
+        
+        // Sanitize branch name for file path
+        let safe_branch = Self::sanitize_branch_name(&branch);
+        config_path.push(format!("{}_{}.counts", project, safe_branch));
 
         Ok(Config {
             project_name: project,
             branch_name: branch,
             counter_file_path: config_path,
         })
+    }
+
+    /// branch names like "name/test" or "feature-123" or "test" can be safely used in file names
+    fn sanitize_branch_name(branch: &str) -> String {
+        branch.replace('/', "_")
     }
 
     /// Get the path to the counter file

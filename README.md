@@ -43,8 +43,20 @@ cargo install --path git-commit-counter-bin --force
 ```bash
 gm --help
 ```
+Output:
+
+![alt text](image.png)
+
+5. Add the `alias` if you have not the same output:
+
+for `bash` or `zshrc`
+```bash
+alias gm="$HOME/.cargo/bin/gm"
+source ~/.bashrc
+```
 
 **Note:** Ensure `~/.cargo/bin` is in your PATH.
+
 ⚠️ IMPORTANT: If you're starting with a newly created repository,
 you MUST make an initial commit before using `gm`:
 ```bash
@@ -105,6 +117,7 @@ Format: `gm "TYPE : message"`
 echo "New feature" > feature.txt
 git add feature.txt
 gm "FE : Add cool feature"
+git push
 ```
 
 Output: `Commit message [main] [FEAT 1 : Add cool feature]`
