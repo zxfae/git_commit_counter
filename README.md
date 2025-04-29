@@ -45,7 +45,7 @@ gm --help
 ```
 Output:
 
-![alt text](image.png)
+![alt text](./DOCS/image.png)
 
 5. Add the `alias` if you have not the same output:
 
