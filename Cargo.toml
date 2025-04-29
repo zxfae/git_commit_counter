@@ -6,7 +6,7 @@ members = [
 resolver = "3"
 
 [workspace.package]
-version = "0.9.0"
+version = "1.0.0"
 edition = "2024"
 authors = ["Philippe lecrosnier alias ZxFae33 <lecro.philippe@icloud.com>"]
 description = "A Git commit counter and formatter tool"
