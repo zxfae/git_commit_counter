@@ -15,9 +15,9 @@ use std::process::exit;
         names (e.g., `FEAT`, `DOCS`) in commit messages and displays.\n\n\
         Supported Types:\n\
         FEAT   Feature (aliases: FE)\n\
-        FIX    Bug fix (alias: FI)\n\
+        FIXE    Bug fix (alias: FI)\n\
         DOCS   Documentation (alias: D)\n\
-        REF    Refactor (alias: R)\n\
+        REFA    Refactor (alias: R)\n\
         TEST   Test (alias: T)\n\
         Custom Any other string\n\n\
         Commit messages must be in the format 'TYPE : message' (e.g., 'FE : Add feature').",
