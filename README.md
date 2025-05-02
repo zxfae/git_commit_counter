@@ -76,6 +76,7 @@ errors when trying to use `gm` with local/remote repositories.
 | DOCS | D       | Documentation |
 | REFA  | R       | Refactor    |
 | TEST | T       | Test        |
+| PERF | P       | Performance        |
 | Custom | Any string | Custom type |
 
 Aliases are converted to full type names (e.g., FE → FEAT) in commits and displays.
@@ -139,6 +140,7 @@ FIXE   : 1
 DOCS  : 0
 REFA   : 0
 TEST  : 0
+PERF : 0
 ```
 
 ### 3. Sync Counts
@@ -194,6 +196,7 @@ FIXE   : 1
 DOCS  : 1
 REFA   : 0
 TEST  : 0
+PERF : 0
 ```
 
 ### Reset and Restart
@@ -211,6 +214,7 @@ FIXE   : 0
 DOCS  : 0
 REFA   : 0
 TEST  : 0
+PERF : 0
 ```
 
 ## 🚨 Common Errors
@@ -239,4 +243,4 @@ MIT License. See LICENSE for details.
 
 Created by zxfae. Issues or ideas? Visit the GitHub repo.
 
-*Last updated: April 29, 2025*
+*Last updated: April 02, 2025*
