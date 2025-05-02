@@ -10,6 +10,7 @@ pub enum CommitType {
     Documentation,
     Refactor,
     Test,
+    Performance,
     Custom(String),
 }
 
@@ -22,6 +23,7 @@ impl CommitType {
             "DOCS" | "D" => CommitType::Documentation,
             "REFA" | "R" => CommitType::Refactor,
             "TEST" | "T" => CommitType::Test,
+            "PERF" | "P" => CommitType::Performance,
             custom => CommitType::Custom(custom.to_string()),
         }
     }
@@ -34,6 +36,7 @@ impl CommitType {
             CommitType::Documentation,
             CommitType::Refactor,
             CommitType::Test,
+            CommitType::Performance,
         ]
     }
 }
@@ -46,6 +49,7 @@ impl fmt::Display for CommitType {
             CommitType::Documentation => "DOCS",
             CommitType::Refactor => "REFA",
             CommitType::Test => "TEST",
+            CommitType::Performance => "PERF",
             CommitType::Custom(s) => s,
         };
         write!(f, "{}", s.to_uppercase())
