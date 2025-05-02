@@ -19,6 +19,7 @@ use std::process::exit;
         DOCS   Documentation (alias: D)\n\
         REFA    Refactor (alias: R)\n\
         TEST   Test (alias: T)\n\
+        PERF Performance(Alias: P)\n\
         Custom Any other string\n\n\
         Commit messages must be in the format 'TYPE : message' (e.g., 'FE : Add feature').",
     version
